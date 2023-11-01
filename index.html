@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Timezone</title>
+</head>
+
+<body>
+  <input type="text" name="clock_txt" size="10" id="localTime">
+
+  <!--NOTE: Either insert the script code to .html file or in the .js file-->
+
+  <script>
+    //  Get the HTML element to display the visitor's local time in Webpage
+    var localTime = document.getElementById('localTime');
+    // Variable to store visitors time zone
+    var visitorTimezone
+    // Get the local time of visitor's timezone and display it
+    function clock() {
+      localTime.value = new Date().toLocaleTimeString('en-US', {
+        timeZone: visitorTimezone
+      });
+    }
+    setInterval(clock, 1000);
+    // Make a request to the ipapi.co API to get visitor timezone
+    fetch('https://ipapi.co/json/')
+      .then(response => response.json())
+      .then(data => {
+        visitorTimezone = data.timezone;
+      })
+      .catch(error => {
+        console.error('Error fetching user timezone:', error);
+        localTime.value = '';
+      });
+  </script>
+</body>
+
+</html>
